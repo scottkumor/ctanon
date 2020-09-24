@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 // import DeleteBtn from "../components/DeleteBtn";
 import API from "../utils/API";
+import Stops from  "../assets/data/stops.json"
 // import { Link } from "react-router-dom";
 // import { Col, Row, Container } from "../components/Grid";
 // import { List, ListItem } from "../components/List";
-import { ColorInput, CategoryInput, TextArea, FormBtn, FilterTrains } from "../components/Form";
+import { ColorInput, CategoryInput, TextArea, FormBtn, FilterTrains, StationInput } from "../components/Form";
 import "../assets/css/sizing.css";
 
 function Submit() {
@@ -16,13 +17,13 @@ function Submit() {
   const [desc, setDesc] = useState('');
   const moment = require("moment");
 
-  // Load all alerts and store them with setAlerts
+  // //Load all alerts and store them with setAlerts
   // useEffect(() => {
   //   loadAlerts()
   // }, [])
 
 
-  // Loads all alerts and sets them to alerts
+  // // Loads all alerts and sets them to alerts
   // function loadAlerts() {
   //   API.getAlerts()
   //     .then(res =>
@@ -41,11 +42,14 @@ function Submit() {
   function handleColorInput() {
     let v = document.getElementById("line").value;
     setLine(v);
+    handleStationInput(v);
+
     if (v === "Brown") {
       FilterTrains("Brn");
     }
     else if (v === "Green") {
       FilterTrains("G");
+
     }
     else if (v === "Orange") {
       FilterTrains("Org");
@@ -67,6 +71,11 @@ function Submit() {
     }
   };
 
+  function handleStationInput(v) {
+    console.log(v)
+    console.log(Stops)
+  };
+
 
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
@@ -75,6 +84,7 @@ function Submit() {
     //if (formObject.color && formObject.category) { i took this out to prevent requiring data -DDD
     API.saveAlert({
       line: line,
+      // station: station,
       category: category,
       description: desc,
       votes: 0,
@@ -99,6 +109,11 @@ function Submit() {
             name="line"
             onChange={() => handleColorInput()}
           />
+
+          <StationInput
+            name="station"
+          >
+          </StationInput>
 
           <CategoryInput
             name="category"

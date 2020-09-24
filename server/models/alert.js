@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const alertSchema = new Schema({
   line: { type: String, required: true },
+  station: {type: String, required: false },
   category: { type: String, required: false },
   description: { type: String, required: false },
   votes: { type: Number, required: false, default: 0 },

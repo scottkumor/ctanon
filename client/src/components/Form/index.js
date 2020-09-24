@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import './style.css'
 import axios from "axios";
+import stopsDB from "../../assets/data/stops.json"
 
 // This file exports the Input, TextArea, and FormBtn components
 
@@ -16,17 +17,106 @@ export function ColorInput(props) {
   return (
     <select {...props} defaultValue="default" id="line" className="form-control">
       <option data-val="default" value="">Choose a Line...</option>
-      <option id="Red" data-val="Red">Red</option>
-      <option id="Blue" data-val="Blue">Blue</option>
-      <option id="Brn" data-val="Brn">Brown</option>
-      <option id="G" data-val="G">Green</option>
-      <option id="Org" data-val="Org">Orange</option>
-      <option id="P" data-val="P">Purple</option>
-      <option id="Pexp" data-val="Pexp">Purple Express</option>
-      <option id="Pink" data-val="Pink">Pink</option>
-      <option id="Y" data-val="Y">Yellow</option>
+      <option id="Red" data-val="red">Red</option>
+      <option id="Blue" data-val="blue">Blue</option>
+      <option id="Brn" data-val="brn">Brown</option>
+      <option id="G" data-val="g">Green</option>
+      <option id="Org" data-val="o">Orange</option>
+      <option id="P" data-val="p">Purple</option>
+      <option id="Pexp" data-val="pexp">Purple Express</option>
+      <option id="Pink" data-val="pnk">Pink</option>
+      <option id="Y" data-val="y">Yellow</option>
     </select>
   );
+}
+
+export function StationInput (props) {
+  const [stops, setStops] = useState([]);
+  const [selectedLine, setSelectedLine] = useState("");
+  const [selectedStop, setSelectedStop] = useState("");
+
+  const lines = {
+    y: [stops],
+    pexp: [stops],
+    g: [stops],
+    red: [stops],
+    blue: [stops],
+    o: [stops],
+    p: [stops],
+    pnk: [stops],
+    brn: [stops]
+  };
+
+  const lineList = Object.keys(lines).map(key => ({
+    name: key
+  }));
+
+  function handleLineSelect(e) {
+    console.log("Selected line", e.target.value);
+    let lineSel = e.target.value;
+    // const stopsSel = lineSel !== "" ? lines[lineSel] : "";
+    let stopsSel = [];
+
+    for( let i=0; i<stopsDB.length; i++) {
+      let checker = stopsDB[i][lineSel]
+
+      if (checker === true){
+        if (stopsSel.indexOf(stopsDB[i].station_name) === -1) {
+          stopsSel.push(stopsDB[i].station_name)
+        } 
+      }
+    
+    }
+    //console.log(stopsSel)
+
+    
+    setSelectedLine(lineSel);
+    setStops(stopsSel);
+    setSelectedStop("");
+  }
+
+  // function handleStopSelect(e) {
+  //   console.log("Selected stop", e.target.value);
+  //   const stopsSel = e.target.value;
+  //   setSelectedStop(stopsSel);
+  // }
+
+  return (
+    
+      <div className="Container">    
+        <select {...props}
+          name="Lines"
+          onChange={e => handleLineSelect(e)}
+          value={selectedLine}
+        >
+          <option value="">Choose a Line...</option>
+          {lineList.map((line, key) => (
+            <option key={key} value={line.name}>
+              {line.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="Stops"
+          //onChange={e => handleStopSelect(e)}
+          //value={selectedStop}
+        >
+          <option value="">Select the stop</option>
+          {stops.map((stop, key) => (
+            <option key={key} value={stop}>
+              {stop}
+            </option>
+          ))}
+        </select>
+      </div>
+  );
+  //   return (
+  //   <select {...props} defaultValue="default" id="station" className="form-control">
+  //     <option data-val="default" value="">Choose a Stop...</option>
+  //   </select>
+    
+  // )
 }
 
 //CTA API call to get all train color information
@@ -49,19 +139,20 @@ export function CategoryInput(props) {
   return (
     <select {...props} defaultValue="default" id="category" className="form-control">
         <option value="default" > Choose a Category...</option>
-      <option className="" id="" data-val="threat">Verbal or physical threat(s)</option>
-      <option className="" id="" data-val="inAppTouch">Inappropriate touching</option>
-      <option className="" id="" data-val="indExp">Indecent exposure</option>
-      <option className="" id="" data-val="sexAdv">Sexual advances</option>
-      <option className="" id="" data-val="inAppPic">Inappropriate photographing/filming</option>
-      <option className="" id="" data-val="tooClose">Unwelcomed physical proximity</option>
-      <option className="" id="" data-val="comment">Inappropriate or sexual comments</option>
+      <option className="" id="" data-val="threat">Verbal or Physical Threat(s)</option>
+      <option className="" id="" data-val="inAppTouch">Inappropriate Touching</option>
+      <option className="" id="" data-val="indExp">Indecent Exposure</option>
+      <option className="" id="" data-val="sexAdv">Sexual Advances</option>
+      <option className="" id="" data-val="inAppPic">Inappropriate Photographing/Filming</option>
+      <option className="" id="" data-val="tooClose">Unwelcomed Physical Proximity</option>
+      <option className="" id="" data-val="comment">Inappropriate or Sexual Comments</option>
       <option className="" id="" data-val="susAct">Suspicious Activity</option>
       <option className="" id="" data-val="obsGest">Obscene gestures</option>
       <option className="" id="" data-val="delayTrain">Delayed Train</option>
       <option className="" id="" data-val="passInc">Passenger Incident</option>
       <option className="" id="" data-val="polAct">Police Activity</option>
-      <option className="" id="" data-val="Other">Other</option>
+      <option className="" id="" data-val="nonTheat">Non-Threatening Incident(s)</option>
+      <option className="" id="" data-val="distPeace">Disturbance of Peace</option>
     </select>
   );
 }

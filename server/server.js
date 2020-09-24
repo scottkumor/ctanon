@@ -28,7 +28,7 @@ app.get('*', (req, res) => {
 });
 
 // Connect to the Mongo DB Locally
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ctanondb");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ctanondb");
 // Connect to the Mongo DB Deployed
 mongoose.connect(
   process.env.MONGODB_URI ||
