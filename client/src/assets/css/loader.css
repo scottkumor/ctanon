@@ -112,20 +112,22 @@
 .loader .cube:nth-child(1) {
     top: 0;
     left: 0;
+    
 }
-/* .loader .cube:nth-child(2) {
+.loader .cube:nth-child(2) {
     top: 0;
     right: 0;
     -webkit-animation: loaderBlockInverse 1.2s infinite ease-in-out both;
     animation: loaderBlockInverse 1.2s infinite ease-in-out both;
+    
 }
 .loader .cube:nth-child(3) {
     bottom: 0;
     left: 0;
     -webkit-animation: loaderBlockInverse 1.2s infinite ease-in-out both;
     animation: loaderBlockInverse 1.2s infinite ease-in-out both;
-} */
-/* .loader .cube:nth-child(4) {
+} 
+.loader .cube:nth-child(4) {
     bottom: 0;
     right: 0;
-} */
+}

@@ -6,6 +6,8 @@ import "../assets/css/sizing.css"
 
 function Detail(props) {
   const [alert, setAlert] = useState({})
+  const moment = require("moment");
+
 
   const { id } = useParams()
   useEffect(() => {
@@ -22,15 +24,14 @@ function Detail(props) {
 
     <div className="d-flex flex-column justify-content-center align-items-center">
 
-      <div className="sizeH m-3">
-        {alert.category}
+      <div className="m-3 detailTitle">
+      <div className="sizeH">{alert.category}</div>
+        <div className="sizeFS">reported on the</div>
+        <div className="sizeH">{alert.line} Line</div>
+        <div className="sizeFS">approximately {moment(alert.dateTime, "YYYYMMDDHHmmss").fromNow()}</div>
       </div>
 
-      <div className="sizeH m-2">
-        on the {alert.line} line
-      </div>
-
-      <div className="sizeFS w-75 mt-5 mb-5" style={h2Style}>
+      <div className="sizeFS justify-content-center align-items-center mt-5 mb-5" style={h2Style}>
         {alert.description}
       </div>
     

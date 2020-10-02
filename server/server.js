@@ -35,6 +35,7 @@ mongoose.connect(
     'mongodb://hostuser:hostuser1@ds163517.mlab.com:63517/heroku_xr954v2q',
   {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
     useFindAndModify: false
   }
 );

@@ -9,6 +9,8 @@ import Axios from "axios";
 import "../assets/css/loader.css";
 import "../assets/css/sizing.css";
 
+//css for alerts gradient comes from Grid css page for some reason
+
 let ctaRoutes = [];
 
 function ctaAlerts() {
@@ -43,25 +45,27 @@ function ctaAlerts() {
 
   return (
     <div className="d-flex flex-column align-items-center">
-        <div>
+        <div className="d-flex flex-column align-items-center">
           <h1 className="display-1 sizeH">CTA Status Alerts</h1>
+          <div className="sizeFS">Click the line color to view the status for that line.</div>
+
         </div>
           {ctaAlerts.length ? (
               ctaAlerts.map(ctaRoute => (
-                <div className={ctaRoute.Status + " d-flex h-100 align-items-center justify-content-between p-2 m-4 rounded"}>
+                <div key={ctaRoute.Route} className={ctaRoute.Status + " d-flex h-100 align-items-center justify-content-between p-2 m-4 rounded"}>
+                  <div className=" display-4 p-3">{ctaRoute.Status}</div>
                   <a alt="Official CTA Alerts Webpage" title="Official CTA Alerts Webpage" href="https://www.transitchicago.com/travel-information/railstatus/" 
-                    className={ctaRoute.Route + " rounded display-4"}>{'\u00A0 \u00A0 \u00A0'}
+                    className={ctaRoute.Route + " rounded display-4 m-2"}>{'\u00A0 \u00A0 \u00A0'}
                   </a>
-                  <div className=" display-4 p-2">{ctaRoute.Status}</div>
                 </div>
               ))
           ):(
               <>
                 <div className="loader">
-                  <span className="cube"></span>
-                  {/* <span className="cube"></span> */}
-                  {/* <span className="cube"></span> */}
-                  {/* <span className="cube"></span> */}
+                  <span className=" cube"></span>
+                  <span className=" cube"></span>
+                  <span className=" cube"></span>
+                  <span className=" cube"></span>
                 </div>
               </>
             )}

@@ -227,7 +227,7 @@ function Alerts() {
                         </Link>
                         <div className=" flex column wsNormal pl-1 align-items-start ">
                           <Link to={"/alerts/" + alert._id} className=" p-1 descSize" title="See Full Alert">
-                            {alert.category} on the {alert.line} line at {alert.station}
+                            {alert.category} on the {alert.line} line at {alert.station} →
                           </Link>
                           <div className=" flex align-items-center justify-items-center pl-2 descTextSize cardStats">
                             <div className="cardStat">
@@ -265,9 +265,9 @@ function Alerts() {
             <div className="mnw-90">
               <div className=" loader">
                 <span className=" cube"></span>
-                {/* <span className="cube"></span> */}
-                {/* <span className="cube"></span> */}
-                {/* <span className="cube"></span> */}
+                <span className="cube"></span>
+                <span className="cube"></span>
+                <span className="cube"></span>
               </div>
             </div>
           </div>

@@ -2,19 +2,22 @@
 import React, { useState } from "react";
 // import DeleteBtn from "../components/DeleteBtn";
 import API from "../utils/API";
-import Stops from  "../assets/data/stops.json"
+import stopsDB from "../assets/data/stops.json"
 // import { Link } from "react-router-dom";
 // import { Col, Row, Container } from "../components/Grid";
 // import { List, ListItem } from "../components/List";
-import { ColorInput, CategoryInput, TextArea, FormBtn, FilterTrains, StationInput } from "../components/Form";
+import { FilterTrains, CategoryInput, TextArea, FormBtn } from "../components/Form";
 import "../assets/css/sizing.css";
 
 function Submit() {
   // Setting our component's initial state
   // const [alerts, setAlerts] = useState([])
-  const [line, setLine] = useState('');
+
   const [category, setCategory] = useState('');
   const [desc, setDesc] = useState('');
+  const [stops, setStops] = useState([]);
+  const [selectedLine, setSelectedLine] = useState("");
+  const [selectedStop, setSelectedStop] = useState("");
   const moment = require("moment");
 
   // //Load all alerts and store them with setAlerts
@@ -39,52 +42,97 @@ function Submit() {
   //     .catch(err => console.log(err));
   // };
 
-  function handleColorInput() {
-    let v = document.getElementById("line").value;
-    setLine(v);
-    handleStationInput(v);
 
-    if (v === "Brown") {
-      FilterTrains("Brn");
-    }
-    else if (v === "Green") {
-      FilterTrains("G");
-
-    }
-    else if (v === "Orange") {
-      FilterTrains("Org");
-    }
-    else if (v === "Purple") {
-      FilterTrains("P");
-    }
-    else if (v === "Purple Express") {
-      FilterTrains("Pexp");
-    }
-    else if (v === "Yellow") {
-      FilterTrains("Y");
-    }
-    else if (v === "") {
-      // do nothing if they re-select the default text
-    }
-    else {
-      FilterTrains(v);
-    }
+  const lines = {
+    y: "Yellow",
+    pexp: "Purple Express",
+    g: "Green",
+    red: "Red",
+    blue: "Blue",
+    o: "Orange",
+    p: "Purple",
+    pnk: "Pink",
+    brn: "Brown"
   };
 
-  function handleStationInput(v) {
-    console.log(v)
-    console.log(Stops)
-  };
+  const lineList = Object.values(lines).map(value => ({
+    name: value
+  }));
+
+  function handleLineSelect(e) {
+    console.log("Selected line", e.target.value);
+    let colorSel = e.target.value;
+    let lineSel = "";
 
 
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
+    if (colorSel === "Yellow") {
+      lineSel = "y";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Purple Express") {
+      lineSel = "pexp";
+      FilterTrains("p"); //cta api did not have pexp, using purple instead
+    }
+    if (colorSel === "Green") {
+      lineSel = "g";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Red") {
+      lineSel = "red";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Blue") {
+      lineSel = "blue";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Orange") {
+      lineSel = "org";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Purple") {
+      lineSel = "p";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Pink") {
+      lineSel = "pnk";
+      FilterTrains(lineSel);
+    }
+    if (colorSel === "Brown") {
+      lineSel = "brn";
+      FilterTrains(lineSel);
+    }
+
+
+    let stopOptions = [];
+
+    for (let i = 0; i < stopsDB.length; i++) {
+      let checker = stopsDB[i][lineSel]
+
+      if (checker === true) {
+        if (stopOptions.indexOf(stopsDB[i].station_name) === -1) {
+          stopOptions.push(stopsDB[i].station_name)
+        }
+      }
+
+    }
+
+
+    setSelectedLine(colorSel);
+    setStops(stopOptions);
+    setSelectedStop("");
+  }
+
+  function handleStopSelect(e) {
+    console.log("Selected stop", e.target.value);
+    const stopOptions = e.target.value;
+    setSelectedStop(stopOptions);
+  }
 
   function handleFormSubmit() {
     //if (formObject.color && formObject.category) { i took this out to prevent requiring data -DDD
     API.saveAlert({
-      line: line,
-      // station: station,
+      line: selectedLine,
+      station: selectedStop,
       category: category,
       description: desc,
       votes: 0,
@@ -102,24 +150,45 @@ function Submit() {
 
     <div className="d-flex flex-column align-items-center justify-content-center">
       <h1 className="display-4 sizeH">Tell Chicago what's happening.</h1>
+      <h1 className="sizeFS">We need the Line, Stop, and Category of the ongoing situation.</h1>
 
-      <form>
+
+      <form className="selectContainer">
         <div className="d-flex">
-          <ColorInput
-            name="line"
-            onChange={() => handleColorInput()}
-          />
-
-          <StationInput
-            name="station"
+          <select 
+            name="Lines"
+            className="form-control"
+            onChange={e => handleLineSelect(e)}
+            value={selectedLine}
           >
-          </StationInput>
+            <option value="">Line...</option>
+            {lineList.map((line, key) => (
+              <option key={key} value={line.name}>
+                {line.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="Stops"
+            className="form-control"
+            onChange={e => handleStopSelect(e)}
+            value={selectedStop}
+          >
+            <option value="">Stop...</option>
+            {stops.map((stop, key) => (
+              <option key={key} value={stop}>
+                {stop}
+              </option>
+            ))}
+          </select>
 
           <CategoryInput
-            name="category"
+            name="Categories"
             onChange={() => setCategory(document.getElementById("category").value)}
           />
         </div>
+
         <TextArea
           name="description"
           placeholder="Describe what's going on here. Max 140 characters."
@@ -128,7 +197,7 @@ function Submit() {
 
         <FormBtn onClick={() => handleFormSubmit()}>
           Submit Alert
-            </FormBtn>
+        </FormBtn>
       </form>
     </div>
   )

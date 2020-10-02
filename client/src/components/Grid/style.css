@@ -19,11 +19,11 @@
     width: inherit;
 }
 
-.Normal {background: linear-gradient(to left, rgba(0, 255, 242, 0.123), rgba(255,255,255));}
-.Planned {background: linear-gradient(to left, rgba(0, 255, 119, .5), rgba(255,255,255));}
-.Temporarily {background: linear-gradient(to left, rgba(255, 230, 0, 0.767), rgba(255,255,255));}
-.Significant {background: linear-gradient(to left, rgba(255, 123, 0, 0.767), rgba(255,255,255));}
-.Disruption {background: linear-gradient(to left, rgba(255, 0, 0, 0.767), rgba(255,255,255));}
+.Normal {background: linear-gradient(to right, rgba(0, 255, 242, 0.123), rgba(255,255,255));}
+.Planned {background: linear-gradient(to right, rgba(0, 255, 119, .5), rgba(255,255,255));}
+.Temporarily, .Change {background: linear-gradient(to right, rgba(255, 230, 0, 0.767), rgba(255,255,255));}
+.Significant {background: linear-gradient(to right, rgba(255, 123, 0, 0.767), rgba(255,255,255));}
+.Disruption {background: linear-gradient(to right, rgba(255, 0, 0, 0.767), rgba(255,255,255));}
 
 .mnw-90 {
     min-width: 90vw;

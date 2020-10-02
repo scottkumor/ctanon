@@ -31,7 +31,16 @@
     display: flex;
 }
 .cardContainer {
-    width: 95vw;
+    width: 90vw;
+}
+
+.holder a {
+    margin-right: 2vw;
+}
+
+
+.selectContainer {
+    min-width: 75vw;
 }
 .cardStats {
     flex-wrap: wrap;
@@ -52,4 +61,10 @@
 }
 .cardStat {
     margin-right: calc(1vw + 1.75vh);
+}
+
+.detailTitle {
+    max-width: 75vw;
+    white-space:normal;
+    text-align:center;
 }
